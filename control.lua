@@ -42,8 +42,9 @@ local function createCliff(surface, chunk, dx, dy)
 	end
 end
 
-local function createWater(surface, chunk, dx, dy, deep, green)
-	surface.set_tiles({{name=deep and (green and "deepwater-green" or "deepwater") or (green and "water-green" or "water"), position={dx, dy}}})
+local function createWater(surface, chunk, dx, dy, tile_changes, deep, green)
+	local name = deep and (green and "deepwater-green" or "deepwater") or (green and "water-green" or "water")
+	table.insert(tile_changes, {name = name, position={dx, dy}})
 	
 	--[[
 	if surface.get_tile{dx-1, dy}.valid and surface.get_tile{dx-1, dy}.prototype.layer ~= "water-tile" then
@@ -78,6 +79,8 @@ local function controlChunk(surface, area, isRetro)
 			cliff.destroy()
 		end
 		--]]
+		
+	local tile_changes = {}
 	
 	for dx = area.left_top.x,area.right_bottom.x do
 		for dy = area.left_top.y,area.right_bottom.y do
@@ -88,15 +91,19 @@ local function controlChunk(surface, area, isRetro)
 				if class == 5 then
 					createCliff(surface, area, dx, dy)
 				else
-					createWater(surface, area, dx, dy, class == 2 or class == 4, class >= 3)
+					createWater(surface, area, dx, dy, tile_changes, class == 2 or class == 4, class >= 3)
 				end
 			else
 				if isRetro then
-					surface.set_tiles({{name="grass-1", position={dx, dy}}})
+					table.insert(tile_changes, {name="grass-1", position={dx, dy}})
 				end
 			end
 		end
 	end
+	
+	if #tile_changes > 0 then
+		surface.set_tiles(tile_changes)
+	end	
 end
 
 script.on_event(defines.events.on_tick, function(event)
