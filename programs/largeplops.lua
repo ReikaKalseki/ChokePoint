@@ -49,7 +49,6 @@ function runTile(dx, dy)
 	local val = (SimplexNoise.Noise2DCompound(rx*Config.terrainScale, ry*Config.terrainScale, {1.25, 1.5, 2, 3, 4, 6, 7, 10, 15, 40}, {0.8, 0.95, 0.9, 0.75, 0.66, 0.55, 0.4, 0.25, 0.15, 0.05})) --range from -1 to +1
 	local valb = math.abs(val)
 	--return (valb < 0.25 or math.abs(valb-0.75) < 0.125) and 1 or 0
-	return valb < 0.75 and valb > 0.25 and 1 or 0
 end
 
 --[[

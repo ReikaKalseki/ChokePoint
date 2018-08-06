@@ -1,4 +1,4 @@
-require "largeplops"
+require "programs.rivercutsringswithland2"
 
 CHUNK_SIZE = 32
 
@@ -106,6 +106,7 @@ local function controlChunk(surface, area, isRetro)
 	end	
 end
 
+--[[
 script.on_event(defines.events.on_tick, function(event)
 	if not ranTick and Config.retrogen then
 		local surface = game.surfaces["nauvis"]
@@ -128,11 +129,11 @@ script.on_event(defines.events.on_tick, function(event)
 			end
 		end
 		ranTick = true
-		--[[
-		for name,force in pairs(game.forces) do
-			force.rechart()
-		end
-		--]]
+		
+		--for name,force in pairs(game.forces) do
+		--	force.rechart()
+		--end
+		
 		--game.print("Ran load code")
 	end
 	if #chunksToGen > 0 then
@@ -146,6 +147,7 @@ script.on_event(defines.events.on_tick, function(event)
 		game.print("Retrogenning chunk, " .. #chunksToGen .. " to go")
 	end
 end)
+--]]
 
 function cantorCombine(a, b)
 	--a = (a+1024)%16384
