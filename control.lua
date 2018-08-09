@@ -1,4 +1,4 @@
-require "programs.rivercutsringswithland2"
+require "programs.lines2"
 
 CHUNK_SIZE = 32
 
