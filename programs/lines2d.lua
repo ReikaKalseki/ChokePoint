@@ -21,9 +21,9 @@ function runTile(dx, dy, offsetX, offsetY)
 	--game.print(dx .. " > " .. bumpx)
 	
 	local db = (SimplexNoise.Noise2DCompound(rx*f2-983456, ry*f2+308234, {1.25, 1.5, 2, 3, 4, 6, 7, 10, 15, 25, 35, 60}, {0.8, 0.95, 0.9, 0.75, 0.66, 0.55, 0.4, 0.25, 0.15, 0.1, 0.08, 0.06}))
-	local od = 0.42+0.04*db --ranges from 0.38 to 0.46
+	local od = 0.025+0.01*db --ranges from 0.38 to 0.46
 	
-	local h = math.min(hx, hy)+math.max(0, (bumpx+bumpy)/2-od)
+	local h = math.min(hx, hy)+math.max(0, (bumpx+bumpy)/15-od)
 	
 	return h >= 0 and 0 or (h < -0.045 and 2 or 1) --was -0.04
 end

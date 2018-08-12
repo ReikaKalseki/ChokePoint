@@ -1,4 +1,4 @@
-require "programs.lines2c"
+require "programs.lines2d"
 
 CHUNK_SIZE = 32
 
