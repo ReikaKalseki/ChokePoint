@@ -43,6 +43,9 @@ local function createCliff(surface, chunk, dx, dy)
 end
 
 local function createWater(surface, chunk, dx, dy, tile_changes, deep, green)
+	if surface.get_tile{dx, dy}.valid and surface.get_tile{dx, dy}.prototype.layer == "water-tile" then
+		return
+	end
 	local name = deep and (green and "deepwater-green" or "deepwater") or (green and "water-green" or "water")
 	table.insert(tile_changes, {name = name, position={dx, dy}})
 	
@@ -168,5 +171,7 @@ function createSeed(surface, x, y) --Used by Minecraft MapGen
 end
 
 script.on_event(defines.events.on_chunk_generated, function(event)
-	controlChunk(event.surface, event.area)	
+	if event.surface.name == "nauvis" then
+		controlChunk(event.surface, event.area)	
+	end
 end)

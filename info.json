@@ -1,9 +1,9 @@
 {
   "name": "ChokePoint",
   "version": "0.0.1",
-  "factorio_version": "0.16",
+  "factorio_version": "0.17",
   "title": "ChokePoint",
   "author": "Reika",
   "description": "Modifies cliff and shore generation to create natural defensive chokepoints throughout the map.",
-  "dependencies": ["base >= 0.16.0"]
+  "dependencies": ["base", "DragonIndustries"]
 }
