@@ -1,4 +1,5 @@
-require "programs.grid"
+require "programs.voronoicells"
+require "simplex"
 
 CHUNK_SIZE = 32
 
