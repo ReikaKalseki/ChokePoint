@@ -1,4 +1,4 @@
-require "programs.lines2d"
+require "programs.grid"
 
 CHUNK_SIZE = 32
 

@@ -2,7 +2,7 @@ require "simplex"
 require "config"
 
 --returns: 0 for land, 1 for shallow water, 2 for deep water, 3 for shallow green water, 4 for deep green water
-function runTile(dx, dy, offsetX, offsetY)
+function runTile(dx, dy)
 	local sz = 36--40--48--64--32
 	local rx = (dx--[[-150*0--]])/sz*Config.terrainScale
 	local ry = (dy--[[+150*0--]])/sz*Config.terrainScale
