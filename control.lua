@@ -86,17 +86,27 @@ local function controlChunk(surface, area, isRetro)
 		
 	local tile_changes = {}
 	
+					for _,e in pairs(surface.find_entities(area)) do
+						if e.type ~= "character" then
+						e.destroy()
+						end
+					end
+	
 	for dx = area.left_top.x,area.right_bottom.x do
 		for dy = area.left_top.y,area.right_bottom.y do
 			local ex = dx-Config.offsetX
 			local ey = dy-Config.offsetY
 			local class = runTile(ex, ey)
 			if class > 0 then
+			--[[
 				if class == 5 then
 					createCliff(surface, area, dx, dy)
 				else
 					createWater(surface, area, dx, dy, tile_changes, class == 2 or class == 4, class >= 3)
 				end
+				--]]
+					surface.create_entity{name = "iron-ore", position = {dx, dy}, amount = class}
+					table.insert(tile_changes, {name="grass-1", position={dx, dy}})
 			else
 				if isRetro then
 					table.insert(tile_changes, {name="grass-1", position={dx, dy}})

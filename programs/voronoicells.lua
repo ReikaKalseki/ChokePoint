@@ -5,7 +5,7 @@ require "config"
 function runTile(dx, dy)
 	local f = 0.01
 	local noise = GetValue(dx*f, dy*f, 0)
-	return math.abs(noise) < 0.125 and 1 or 0
+	return math.floor(noise*1024)
 end
 
 --[[

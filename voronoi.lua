@@ -36,12 +36,12 @@ function GetValue(x, y, seed)
   local xInt = math.floor(x)
   local yInt = math.floor(y)
 
-  local minDist = 2147483647.0
+  local minDist1 = 2147483647.0
   local minDist2 = 2147483647.0
-  local xCandidate1 = 0
-  local yCandidate1 = 0
-  local xCandidate2 = 0
-  local yCandidate2 = 0
+  local candidate1 = nil
+  local candidate2 = nil
+  
+  local points = {}
 
   -- Inside each unit cube, there is a seed point at a random position.  Go through each of the nearby cubes until we find a cube with a seed point that is closest to the specified position.
   for dy = -2,2 do
@@ -58,26 +58,29 @@ function GetValue(x, y, seed)
 
       if dist < minDist1 then -- This seed point is closer to any others found so far, so record this seed point.
         minDist1 = dist
-        xCandidate1 = xPos
-        yCandidate1 = yPos
+        candidate1 = {xPos, yPos}
       end
-      if dist < minDist2 and dist ~= minDist1 then
+      if dist < minDist2 and (xPos ~= candidate1[1] or yPos ~= candidate1[2]) then
         minDist2 = dist
-        xCandidate2 = xPos
-        yCandidate2 = yPos
+        candidate2 = {xPos, yPos}
       end
     end
   end
 
-  local value
-
-  -- Determine the distance to the nearest seed point.
-  local xDist = xCandidate - x
-  local yDist = yCandidate - y
-  value = (math.sqrt (xDist * xDist + yDist * yDist)) * SQRT_3 - 1.0
-
-  -- Return the calculated distance with the displacement value applied.
-  return value-- + ValueNoise3D ( math.floor (xCandidate), math.floor (yCandidate), seed)
+  local mid = {(candidate1[1]+candidate2[1])/2, (candidate1[2]+candidate2[2])/2}
+  local dx = candidate2[1]-candidate1[1]
+  local dy = candidate2[2]-candidate1[2]
+  local invslope = dy/dx
+  local midp2 = {mid[1]+1, mid[2]+invslope}
+  local dLx = midp2[1]-mid[1]
+  local dLy = midp2[2]-mid[2]
+  
+  --[ https://wikimedia.org/api/rest_v1/media/math/render/svg/be2ab4a9d9d77f1623a2723891f652028a7a328d --]
+  local num = dLy*y-dLx*x+midp2[1]*mid[2]-midp2[2]*mid[1]
+  local denom = dLx*dLx+dLy*dLy
+  local dist = math.abs(num)/math.sqrt(denom)
+  
+  return dist
 end
 
 return VoronoiNoise
