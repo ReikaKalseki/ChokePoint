@@ -13,6 +13,8 @@ local ranTick = false
 
 local chunksToGen = {}
 
+local waterTypes = {"water", "deepwater", "water-green", "deepwater-green", "cliff", "water-shallow"}
+
 function canPlaceAt(surface, x, y)
 	return surface.can_place_entity{name = "cliff", position = {x, y}}-- and not isWaterEdge(surface, x, y)
 end
@@ -46,12 +48,16 @@ local function createCliff(surface, chunk, dx, dy)
 	end
 end
 
-local function createWater(surface, chunk, dx, dy, tile_changes, deep, green)
-	if isWaterTile(surface.get_tile{dx, dy}) then
-		return
+local function createWater(surface, chunk, dx, dy, tile_changes, waterType)
+	local at = surface.get_tile{dx, dy}
+	if isWaterTile(at) then
+		if string.find(at.name, "deep", 1, true) and not string.find(waterType, "deep", 1, true) then
+			return
+		elseif not (string.find(at.name, "shallow", 1, true) or string.find(at.name, "mud", 1, true)) and string.find(waterType, "shallow", 1, true) then
+			return
+		end
 	end
-	local name = deep and (green and "deepwater-green" or "deepwater") or (green and "water-green" or "water")
-	table.insert(tile_changes, {name = name, position={dx, dy}})
+	table.insert(tile_changes, {name = waterType, position={dx, dy}})
 	
 	--[[
 	if surface.get_tile{dx-1, dy}.valid and surface.get_tile{dx-1, dy}.prototype.layer ~= "water-tile" then
@@ -101,7 +107,7 @@ local function controlChunk(surface, area, isRetro)
 				if class == 5 then
 					createCliff(surface, area, dx, dy)
 				else
-					createWater(surface, area, dx, dy, tile_changes, class == 2 or class == 4, class >= 3)
+					createWater(surface, area, dx, dy, tile_changes, waterTypes[class])
 				end
 			else
 				if isRetro then

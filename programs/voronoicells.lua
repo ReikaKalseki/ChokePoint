@@ -2,7 +2,7 @@ require "voronoi"
 require "simplex"
 require "config"
 
---returns: 0 for land, 1 for shallow water, 2 for deep water, 3 for shallow green water, 4 for deep green water
+--returns: 0 for land, 1 for normal water, 2 for deep water, 3 for normal green water, 4 for deep green water, 5 for cliff, 6 for "water-shallow" which is traversible
 function runTile(dx, dy)
 	dx = dx/2.5*Config.terrainScale
 	dy = dy/2.5*Config.terrainScale
@@ -22,7 +22,15 @@ function runTile(dx, dy)
 	local simplexOffset = SimplexNoise.Noise2D(dx3*f4, dy3*f4)
 	noise = noise+simplexOffset*0.03
 	local spawnZone = math.max(0, 1-(dx*dx+dy*dy)*0.02)
-	return (noise+spawnZone*0.3 < 0.05*Config.riverSize and simplexBridges < 0.3) and 1 or 0
+	local baseNoise = noise+spawnZone*0.3
+	local thresh = 0.05*Config.riverSize
+	if baseNoise < thresh and simplexBridges < 0.3 then
+		return 1
+	elseif (baseNoise < thresh+0.025 and simplexBridges < 0.3) or (baseNoise < thresh and simplexBridges < 0.45) then
+		return 6
+	else
+		return 0
+	end
 end
 
 --[[
