@@ -66,16 +66,7 @@ local function createWater(surface, chunk, dx, dy, tile_changes, deep, green)
 	--]]
 end
 
-local tileset = {}
-
-function addTiles()
-for name,tile in pairs(game.tile_prototypes) do
-	table.insert(tileset, name)
-end
-end
-
 local function controlChunk(surface, area, isRetro)
-if #tileset == 0 then addTiles() end
 	--local rand = game.create_random_generator()
 	local x = (area.left_top.x+area.right_bottom.x)/2
 	local y = (area.left_top.y+area.right_bottom.y)/2
@@ -95,19 +86,23 @@ if #tileset == 0 then addTiles() end
 		
 	local tile_changes = {}
 	
+					for _,e in pairs(surface.find_entities(area)) do
+						if e.type ~= "character" then
+						e.destroy()
+						end
+					end
+	
 	for dx = area.left_top.x,area.right_bottom.x do
 		for dy = area.left_top.y,area.right_bottom.y do
 			local ex = dx-Config.offsetX
 			local ey = dy-Config.offsetY
 			local class = runTile(ex, ey)
 			if class > 0 then
-			--[[
 				if class == 5 then
 					createCliff(surface, area, dx, dy)
 				else
 					createWater(surface, area, dx, dy, tile_changes, class == 2 or class == 4, class >= 3)
 				end
-				--]]table.insert(tile_changes, {name=tileset[class], position={dx, dy}})
 			else
 				if isRetro then
 					table.insert(tile_changes, {name="grass-1", position={dx, dy}})
