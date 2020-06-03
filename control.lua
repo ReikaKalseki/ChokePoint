@@ -1,5 +1,8 @@
+require "__DragonIndustries__.tiles"
+
 require "programs.voronoicells"
 require "simplex"
+require "voronoi"
 
 CHUNK_SIZE = 32
 
@@ -44,7 +47,7 @@ local function createCliff(surface, chunk, dx, dy)
 end
 
 local function createWater(surface, chunk, dx, dy, tile_changes, deep, green)
-	if surface.get_tile{dx, dy}.valid and surface.get_tile{dx, dy}.prototype.layer == 3 then --is water
+	if isWaterTile(surface.get_tile{dx, dy}) then
 		return
 	end
 	local name = deep and (green and "deepwater-green" or "deepwater") or (green and "water-green" or "water")
@@ -72,9 +75,12 @@ local function controlChunk(surface, area, isRetro)
 	local y = (area.left_top.y+area.right_bottom.y)/2
 	--local dd = math.sqrt(x*x+y*y)
 	--local seed = createSeed(surface, x, y)
-	--seed = bit32.bxor(seed, Config.seedMix)
+	--
 	--rand.re_seed(seed)	
-	SimplexNoise.seedP(surface.map_gen_settings.seed)
+	local seed = surface.map_gen_settings.seed
+	seed = bit32.bxor(seed, Config.seedMix)
+	SimplexNoise.seedP(seed)
+	VoronoiNoise.seedBase = seed
 	
 	--log("Genning chunk " .. x .. " , " .. y)
 	
@@ -85,12 +91,6 @@ local function controlChunk(surface, area, isRetro)
 		--]]
 		
 	local tile_changes = {}
-	
-					for _,e in pairs(surface.find_entities(area)) do
-						if e.type ~= "character" then
-						e.destroy()
-						end
-					end
 	
 	for dx = area.left_top.x,area.right_bottom.x do
 		for dy = area.left_top.y,area.right_bottom.y do

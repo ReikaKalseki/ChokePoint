@@ -12,6 +12,8 @@ local SEED_NOISE_GEN = 1013
 
 local SQRT_3 = math.sqrt(3)
 
+VoronoiNoise.seedBase = 0
+
 local function multiplyHash(hash, factor)
 	return bit32.band(hash*factor, 0x7fffffff)
 end
@@ -46,7 +48,7 @@ local function ValueNoise3D (x, y, seed)
   return 1.0 - (IntValueNoise3D (x, y, seed) / 1073741824.0)
 end
 
-function GetValue(x, y, seed)
+function GetValue(x, y)
   local xInt = math.floor(x)
   local yInt = math.floor(y)
   
@@ -59,8 +61,8 @@ function GetValue(x, y, seed)
       -- Calculate the position and distance to the seed point inside of this unit cube.
       local xCur = dx+xInt
       local yCur = dy+yInt
-      local xPos = xCur + ValueNoise3D (xCur, yCur, seed)
-      local yPos = yCur + ValueNoise3D (xCur, yCur, seed+1)
+      local xPos = xCur + ValueNoise3D (xCur, yCur, VoronoiNoise.seedBase)
+      local yPos = yCur + ValueNoise3D (xCur, yCur, VoronoiNoise.seedBase+1)
       local xDist = xPos - x
       local yDist = yPos - y
       local dist = xDist * xDist + yDist * yDist
