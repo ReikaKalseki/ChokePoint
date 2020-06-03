@@ -4,6 +4,7 @@ Ported from libnoise. As usual with noise code I have incorporated, '--' comment
 
 VoronoiNoise = {}
 
+-- All constants are primes and must remain prime in order for this noise function to work correctly.
 local X_NOISE_GEN = 1
 local Y_NOISE_GEN = 31337
 --local Z_NOISE_GEN = 263
@@ -11,21 +12,34 @@ local SEED_NOISE_GEN = 1013
 
 local SQRT_3 = math.sqrt(3)
 
-local function IntValueNoise3D (x, y, seed)
-  -- All constants are primes and must remain prime in order for this noise function to work correctly.
-  local n = (
-  X_NOISE_GEN    * x
-  + Y_NOISE_GEN    * y
-  --+ Z_NOISE_GEN    * z
-  + SEED_NOISE_GEN * seed)
+local function multiplyHash(hash, factor)
+	return bit32.band(hash*factor, 0x7fffffff)
+end
 
-  n = bit32.band(n, 0x7fffffff)
+local function addToHash(hash, add)
+	return bit32.band(hash+add, 0x7fffffff)
+end
+
+local function IntValueNoise3D (x, y, seed)
+
+	local n0 = addToHash(0, SEED_NOISE_GEN)
+	n0 = multiplyHash(n0, seed)
+	local n1 = addToHash(0, X_NOISE_GEN)
+	n1 = multiplyHash(n1, x)
+	local n2 = addToHash(0, Y_NOISE_GEN)
+	n2 = multiplyHash(n2, y)
+	local n = addToHash(n1, n2)
+	n = addToHash(n, n0)
 
   n = bit32.bxor(bit32.rshift(n, 13), n)
+  
+  local a = multiplyHash(n, n)
+  a = multiplyHash(a, 60493)
+  a = addToHash(a, 19990303)
+  a = multiplyHash(a, n)
+  a = addToHash(a, 1376312589)
 
-  local a = (n * (n * n * 60493 + 19990303) + 1376312589)
-
-  return bit32.band(a, 0x7fffffff)
+  return a
 end
 
 local function ValueNoise3D (x, y, seed)
