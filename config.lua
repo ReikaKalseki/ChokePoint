@@ -8,3 +8,5 @@ Config.offsetY = settings.global["terrain-offset-y"].value
 Config.seedMix = settings.global["terrain-mixin-seed"].value
 
 Config.retrogen = false--settings.global["terrain-retrogen"].value
+
+Config.riverSize = settings.global["river-thickness"].value

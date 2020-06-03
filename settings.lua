@@ -36,4 +36,11 @@ data:extend({
             default_value = false,
             order = "r",
         },--]]
+		{
+            type = "double-setting",
+            name = "river-thickness",
+            setting_type = "runtime-global",
+            default_value = 1.0,
+            order = "r",
+        }
 })

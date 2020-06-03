@@ -44,7 +44,7 @@ local function createCliff(surface, chunk, dx, dy)
 end
 
 local function createWater(surface, chunk, dx, dy, tile_changes, deep, green)
-	if surface.get_tile{dx, dy}.valid and surface.get_tile{dx, dy}.prototype.layer == "water-tile" then
+	if surface.get_tile{dx, dy}.valid and surface.get_tile{dx, dy}.prototype.layer == 3 then --is water
 		return
 	end
 	local name = deep and (green and "deepwater-green" or "deepwater") or (green and "water-green" or "water")
