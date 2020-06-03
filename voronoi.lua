@@ -35,11 +35,6 @@ end
 function GetValue(x, y, seed)
   local xInt = math.floor(x)
   local yInt = math.floor(y)
-
-  local minDist1 = 2147483647.0
-  local minDist2 = 2147483647.0
-  local candidate1 = nil
-  local candidate2 = nil
   
   local points = {}
 
@@ -56,27 +51,25 @@ function GetValue(x, y, seed)
       local yDist = yPos - y
       local dist = xDist * xDist + yDist * yDist
 
-      if dist < minDist1 then -- This seed point is closer to any others found so far, so record this seed point.
-        minDist1 = dist
-        candidate1 = {xPos, yPos}
-      end
-      if dist < minDist2 and (xPos ~= candidate1[1] or yPos ~= candidate1[2]) then
-        minDist2 = dist
-        candidate2 = {xPos, yPos}
-      end
+      table.insert(points, {src = {xCur, yCur}, result = {xPos, yPos}, dist = dist})
     end
   end
+  
+  table.sort(points, function(point1, point2) return point1.dist < point2.dist end)
+  
+  local candidate1 = points[1].result
+  local candidate2 = points[2].result
 
   local mid = {(candidate1[1]+candidate2[1])/2, (candidate1[2]+candidate2[2])/2}
   local dx = candidate2[1]-candidate1[1]
   local dy = candidate2[2]-candidate1[2]
-  local invslope = dy/dx
+  local invslope = -dx/dy
   local midp2 = {mid[1]+1, mid[2]+invslope}
   local dLx = midp2[1]-mid[1]
   local dLy = midp2[2]-mid[2]
   
   --[ https://wikimedia.org/api/rest_v1/media/math/render/svg/be2ab4a9d9d77f1623a2723891f652028a7a328d --]
-  local num = dLy*y-dLx*x+midp2[1]*mid[2]-midp2[2]*mid[1]
+  local num = dLy*x-dLx*y+midp2[1]*mid[2]-midp2[2]*mid[1]
   local denom = dLx*dLx+dLy*dLy
   local dist = math.abs(num)/math.sqrt(denom)
   

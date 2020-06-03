@@ -98,15 +98,11 @@ local function controlChunk(surface, area, isRetro)
 			local ey = dy-Config.offsetY
 			local class = runTile(ex, ey)
 			if class > 0 then
-			--[[
 				if class == 5 then
 					createCliff(surface, area, dx, dy)
 				else
 					createWater(surface, area, dx, dy, tile_changes, class == 2 or class == 4, class >= 3)
 				end
-				--]]
-					surface.create_entity{name = "iron-ore", position = {dx, dy}, amount = class}
-					table.insert(tile_changes, {name="grass-1", position={dx, dy}})
 			else
 				if isRetro then
 					table.insert(tile_changes, {name="grass-1", position={dx, dy}})
