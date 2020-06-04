@@ -84,7 +84,7 @@ local function controlChunk(surface, area, isRetro)
 	--
 	--rand.re_seed(seed)	
 	local seed = surface.map_gen_settings.seed
-	seed = bit32.bxor(seed, Config.seedMix)
+	seed = bit32.band(bit32.bxor(seed, Config.seedMix), 0x7fffffff)
 	SimplexNoise.seedP(seed)
 	VoronoiNoise.seedBase = seed
 	
