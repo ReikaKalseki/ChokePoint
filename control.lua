@@ -13,7 +13,7 @@ local ranTick = false
 
 local chunksToGen = {}
 
-local waterTypes = {"water", "deepwater", "water-green", "deepwater-green", "cliff", "water-shallow"}
+local waterTypes = {"water", "deepwater", "water-green", "deepwater-green", "cliff", "water-shallow", "water-mud"}
 
 function canPlaceAt(surface, x, y)
 	return surface.can_place_entity{name = "cliff", position = {x, y}}-- and not isWaterEdge(surface, x, y)
@@ -111,7 +111,7 @@ local function controlChunk(surface, area, isRetro)
 				end
 			else
 				if isRetro then
-					table.insert(tile_changes, {name="grass-1", position={dx, dy}})
+					--table.insert(tile_changes, {name="grass-1", position={dx, dy}})
 				end
 			end
 		end
@@ -122,7 +122,6 @@ local function controlChunk(surface, area, isRetro)
 	end	
 end
 
---[[
 script.on_event(defines.events.on_tick, function(event)
 	if not ranTick and Config.retrogen then
 		local surface = game.surfaces["nauvis"]
@@ -156,14 +155,17 @@ script.on_event(defines.events.on_tick, function(event)
 		local area = chunksToGen[1]
 		local surface = game.surfaces["nauvis"]
 		controlChunk(surface, area, true)
+		--[[
 		for name,force in pairs(game.forces) do
 			force.chart(surface, area)
 		end
+		--]]
 		table.remove(chunksToGen, 1)
+		if #chunksToGen%20 == 0 then
 		game.print("Retrogenning chunk, " .. #chunksToGen .. " to go")
+		end
 	end
 end)
---]]
 
 function cantorCombine(a, b)
 	--a = (a+1024)%16384

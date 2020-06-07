@@ -29,8 +29,10 @@ function runTile(dx, dy)
 	local shallows = 0.035
 	if value < thresh-shallows then
 		return 1
-	elseif value < thresh+shallows then
+	elseif value < thresh+shallows*0.55 then
 		return 6
+	elseif value < thresh+shallows then
+		return 7
 	else
 		return 0
 	end
