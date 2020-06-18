@@ -42,5 +42,12 @@ data:extend({
             setting_type = "runtime-global",
             default_value = 1.0,
             order = "r",
+        },
+		{
+            type = "bool-setting",
+            name = "allow-traversible-shores",
+            setting_type = "runtime-global",
+            default_value = true,
+            order = "r",
         }
 })

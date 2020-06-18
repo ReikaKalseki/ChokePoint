@@ -1,6 +1,6 @@
 require "__DragonIndustries__.tiles"
 
-require "programs.voronoicells"
+require "programs.voronoicells2"
 require "simplex"
 require "voronoi"
 
@@ -49,6 +49,9 @@ local function createCliff(surface, chunk, dx, dy)
 end
 
 local function createWater(surface, chunk, dx, dy, tile_changes, waterType)
+	if ((not Config.mudShores) and waterType == "water-mud") then
+		waterType = "water-shallow"
+	end
 	local at = surface.get_tile{dx, dy}
 	if isWaterTile(at) then
 		if string.find(at.name, "deep", 1, true) and not string.find(waterType, "deep", 1, true) then

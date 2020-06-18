@@ -10,3 +10,5 @@ Config.seedMix = settings.global["terrain-mixin-seed"].value
 Config.retrogen = false--settings.global["terrain-retrogen"].value
 
 Config.riverSize = settings.global["river-thickness"].value
+
+Config.mudShores = settings.global["allow-traversible-shores"].value

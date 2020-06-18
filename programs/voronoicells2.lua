@@ -9,7 +9,7 @@ function runTile(dx, dy)
 	local f0 = 0.0035*3
 	local f0b = 0.024*3
 	local f = 0.007
-	local f2 = 0.039/5
+	local f2 = 0.039/4
 	local f3 = 0.126/5
 	local f4 = 0.13
 	local dx2 = dx+3489
@@ -19,7 +19,7 @@ function runTile(dx, dy)
 	local wobble = 0.4*(SimplexNoise.Noise2D(dx*f0, dy*f0)+0.06*SimplexNoise.Noise2D(dx*f0b, dy*f0b))
 	local noise = GetValue(dx*f+wobble, dy*f+wobble)
 	local simplexBridges = SimplexNoise.Noise2D(dx*f2, dy*f2)+0.25*SimplexNoise.Noise2D(dx2*f3, dy2*f3)
-	simplexBridges = simplexBridges/6+0.095
+	simplexBridges = simplexBridges/6+0.095*0.8
 	local simplexOffset = SimplexNoise.Noise2D(dx3*f4, dy3*f4)
 	noise = noise+simplexOffset*0.03
 	local spawnZone = math.max(0, 1-(dx*dx+dy*dy)*0.02)
