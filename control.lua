@@ -101,20 +101,26 @@ local function controlChunk(surface, area, isRetro)
 		
 	local tile_changes = {}
 	
-	for dx = area.left_top.x,area.right_bottom.x do
-		for dy = area.left_top.y,area.right_bottom.y do
-			local ex = dx-Config.offsetX
-			local ey = dy-Config.offsetY
-			local class = runTile(ex, ey)
-			if class > 0 then
-				if class == 5 then
-					createCliff(surface, area, dx, dy)
-				else
-					createWater(surface, area, dx, dy, tile_changes, waterTypes[class])
-				end
-			else
-				if isRetro then
-					--table.insert(tile_changes, {name="grass-1", position={dx, dy}})
+	local f0 = 1-Config.falloff*math.sqrt(area.left_top.x*area.left_top.x+area.left_top.y*area.left_top.y)/10000
+	if f0 > -1 then
+		for dx = area.left_top.x,area.right_bottom.x do
+			for dy = area.left_top.y,area.right_bottom.y do
+				local ex = dx-Config.offsetX
+				local ey = dy-Config.offsetY
+				local f = 1-Config.falloff*math.sqrt(ex*ex+ey*ey)/10000
+				if f > 0 then
+					local class = runTile(ex, ey, f)
+					if class > 0 then
+						if class == 5 then
+							createCliff(surface, area, dx, dy)
+						else
+							createWater(surface, area, dx, dy, tile_changes, waterTypes[class])
+						end
+					else
+						if isRetro then
+							--table.insert(tile_changes, {name="grass-1", position={dx, dy}})
+						end
+					end
 				end
 			end
 		end

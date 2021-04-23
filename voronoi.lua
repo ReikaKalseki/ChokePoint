@@ -84,7 +84,7 @@ function GetValue(x, y)
   local dLx = midp2[1]-mid[1]
   local dLy = midp2[2]-mid[2]
   
-  --[ https://wikimedia.org/api/rest_v1/media/math/render/svg/be2ab4a9d9d77f1623a2723891f652028a7a328d --]
+  --[ distance from point to line: https://wikimedia.org/api/rest_v1/media/math/render/svg/be2ab4a9d9d77f1623a2723891f652028a7a328d --]
   local num = dLy*x-dLx*y+midp2[1]*mid[2]-midp2[2]*mid[1]
   local denom = dLx*dLx+dLy*dLy
   local dist = math.abs(num)/math.sqrt(denom)

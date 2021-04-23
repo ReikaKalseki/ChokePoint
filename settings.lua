@@ -49,5 +49,14 @@ data:extend({
             setting_type = "runtime-global",
             default_value = true,
             order = "r",
+        },
+		{
+            type = "double-setting",
+            name = "distance-falloff",
+            setting_type = "runtime-global",
+            default_value = 12,
+			minimum_value = 0,
+			maximum_value = 100,
+            order = "r",
         }
 })
