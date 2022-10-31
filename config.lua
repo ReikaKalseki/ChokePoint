@@ -14,3 +14,5 @@ Config.riverSize = settings.global["river-thickness"].value
 Config.mudShores = settings.global["allow-traversible-shores"].value
 
 Config.falloff = settings.global["distance-falloff"].value
+
+--Config.seedOverride = 1246960253
