@@ -161,9 +161,9 @@ SimplexNoise.PrevBlur2D = {}
 SimplexNoise.GBlur2D = function(x,y,stdDev)
 	if SimplexNoise.PrevBlur2D[x] and SimplexNoise.PrevBlur2D[x][y] and SimplexNoise.PrevBlur2D[x][y][stdDev] then return SimplexNoise.PrevBlur2D[x][y][stdDev] end
 	local pwr = ((x^2+y^2)/(2*(stdDev^2)))*-1
-	local ret = ((1/(2*math.pi*(stdDev^2)))*e)^pwr
-	if not SimplexNoise.PrevBlur2D[x] then PrevBlur2D[x] = {} end
-	if not SimplexNoise.PrevBlur2D[x][y] then PrevBlur2D[x][y] = {} end
+	local ret = ((1/(2*math.pi*(stdDev^2)))*SimplexNoise.e)^pwr
+	if not SimplexNoise.PrevBlur2D[x] then SimplexNoise.PrevBlur2D[x] = {} end
+	if not SimplexNoise.PrevBlur2D[x][y] then SimplexNoise.PrevBlur2D[x][y] = {} end
 	SimplexNoise.PrevBlur2D[x][y][stdDev] = ret
 	return ret
 end 
@@ -172,7 +172,7 @@ SimplexNoise.FractalSum2DNoise = function(x,y,itier) --very expensive, much more
 	local ret = SimplexNoise.Noise2D(x,y)
 	for i=1,itier do
 		local itier = 2^itier
-		ret = ret + (i/itier)*(Noise2D(x*(itier/i),y*(itier/i)))
+		ret = ret + (i/itier)*(SimplexNoise.Noise2D(x*(itier/i),y*(itier/i)))
 	end
 	return ret
 end 

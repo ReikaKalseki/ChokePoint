@@ -83,7 +83,7 @@ local function controlChunk(surface, area, isRetro)
 	local x = (area.left_top.x+area.right_bottom.x)/2
 	local y = (area.left_top.y+area.right_bottom.y)/2
 	--local dd = math.sqrt(x*x+y*y)
-	--local seed = createSeed(surface, x, y)
+	--local seed = createSeed(surface, x, y) --[[@as uint]]
 	--
 	--rand.re_seed(seed)	
 	local seed = surface.map_gen_settings.seed

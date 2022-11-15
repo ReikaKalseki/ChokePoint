@@ -1,0 +1,63 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.101.102
+Date: Mar 27 2021
+  Misc Changes:
+    - Update to 1.1
+---------------------------------------------------------------------------------------------------
+Version: 1.018.10
+Date: Jun 29 2020
+  New Features:
+    - Added a variant of voronoicells and made it the default
+  Misc Changes:
+    - Improved shallow water generation
+    - Made traversible shores an option
+---------------------------------------------------------------------------------------------------
+Version: 1.018.3
+Date: Jun 7 2020
+  New Features:
+    - Added function to generate shores of muddy water at the edges and endings of rivers
+---------------------------------------------------------------------------------------------------
+Version: 1.018.2
+Date: Jun 7 2020
+  New Features:
+    - Added missing locale
+    - Added river thickness setting
+  Misc Changes:
+    - Implemented voronoi noise based generation options and made those the default
+    - Improved water handling
+    - Moved shared code to Dragon Industries
+---------------------------------------------------------------------------------------------------
+Version: 1.018.1
+Date: May 29 2020
+  Misc Changes:
+    - Update to 0.18
+---------------------------------------------------------------------------------------------------
+Version: 1.017.6
+Date: Jun 6 2019
+  Misc Changes:
+    - Restricted effect to "nauvis" (ie default) surface only
+---------------------------------------------------------------------------------------------------
+Version: 1.017.2
+Date: Mar 23 2019
+  Misc Changes:
+    - Update to 0.17
+---------------------------------------------------------------------------------------------------
+Version: 1.016.112
+Date: Aug 13 2018
+  New Features:
+    - Added missing locale
+    - Added variants b, c, and d to algorithm lines2
+  Misc Changes:
+    - Changed default generation algorithm from "lines2" to "lines2d"
+---------------------------------------------------------------------------------------------------
+Version: 1.016.108
+Date: Aug 9 2018
+  New Features:
+    - Added several new generation algorithms, including rivercutsringswithland3 and lines(2)
+  Misc Changes:
+    - Changed default generation algorithm from "largeplops" to "lines2"
+---------------------------------------------------------------------------------------------------
+Version: 1.016.97
+Date: Jul 29 2018
+  Misc Changes:
+    - Release
